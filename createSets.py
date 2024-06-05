@@ -17,7 +17,7 @@ featureListR = [17,20,21,22,26,28,31,32,39,42,44,71]
 featureListL = [4,5,6,7,8,9,12,61]
 
 
-# #get frequecy at the first coin (always the same)
+#get frequecy of the first coin (always the same)
 dataset = DataFileReader(folder+labels_name[1]+".h5")
 f,_ = dataset.get_all_mesurements()
 
