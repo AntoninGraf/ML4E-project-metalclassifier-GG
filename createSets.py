@@ -5,7 +5,7 @@ from datafilereader import DataFileReader
 from sklearn.utils import shuffle
 import pickle
 
-enForeign = True
+enForeign = False
 
 #load data from group 5
 folder = "./data/Groupe5/dataSetAGF-bobine3/"
