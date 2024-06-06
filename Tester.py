@@ -17,7 +17,10 @@ labels = ["unknown", "5_CTS", "10_CTS", "20_CTS", "50_CTS", "1_CHF", "2_CHF", "5
 # Load the pre-trained SVM model
 
 with open("data/Tests/model1.pkl","rb+") as f:
-    model = pickle.load(f)
+    SVM = pickle.load(f)
+
+with open("data/Tests/modelAn1.pkl","rb+") as f:
+    ANO = pickle.load(f)
 
 
 # Main function
@@ -60,9 +63,14 @@ def main(file_path):
             X = np.concatenate((R,L,p),axis=0)
             # reshape the array to 2D
             X = X.reshape(1, -1)
-            Y = model.predict(X)
-            print("Coin is of type: ", labels[Y[0]])
-            
+            result = ANO.predict(X)
+            print("Anomaly score: ", result)
+            if result == -1:
+                print("Coin is unknown")
+            else:
+                Y = SVM.predict(X)
+                print("Coin is of type: ", labels[Y[0]])
+
         time.sleep(2)  # Give user time to mesure the coin to be tested
         
     
