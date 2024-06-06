@@ -3,7 +3,6 @@ import os
 import numpy as np
 from datafilereader import DataFileReader
 import pickle
-#from sklearn.externals import joblib
 
 # Path to the data file
 file_path = "./data/Tests/coin_data.h5" 
@@ -60,7 +59,6 @@ def main(file_path):
             Y = model.predict(X)
             print("Coin is of type: ", labels[Y[0]])
             
-
         time.sleep(2)  # Give user time to mesure the coin to be tested
         
     
