@@ -2,6 +2,7 @@ import time
 import os
 import numpy as np
 from datafilereader import DataFileReader
+import pickle
 #from sklearn.externals import joblib
 
 # Path to the data file
@@ -10,10 +11,13 @@ file_path = "./data/Tests/coin_data.h5"
 #Set up features
 featureListR = [17,20,21,22,26,28,31,32,39,42,44,71]
 featureListL = [4,5,6,7,8,9,12,61]
+labels = ["unknown", "5_CTS", "10_CTS", "20_CTS", "50_CTS", "1_CHF", "2_CHF", "5_CHF"]
 
 # Load the pre-trained SVM model
-# model = joblib.load('svm_model.pkl')
-# scaler = joblib.load('scaler.pkl')
+
+with open("data/Tests/model1.pkl","rb+") as f:
+    model = pickle.load(f)
+
 
 # Main function
 def main(file_path):
@@ -32,9 +36,9 @@ def main(file_path):
             L_cal = np.imag(Z)/(2*np.pi*f)
             Calibrated = True
             print("Calibration done")
-            return R_cal, L_cal #return the calibration values
+            
 
-        time.sleep(5)  # Give user time to calibrate
+        time.sleep(2)  # Give user time to calibrate
         
     # TESTING
     print("Please take the measurement for the coin to be tested")
@@ -50,13 +54,14 @@ def main(file_path):
             R = R[featureListR]
             L = L[featureListL]
             #concatenate the features
-            # X = np.concatenate((R,L),axis=0)
-            # X = scaler.transform(X)
-            # Y = model.predict(X)
-            # print("Coin is of type: ", Y)
-            return 
+            X = np.concatenate((R,L),axis=0)
+            # reshape the array to 2D
+            X = X.reshape(1, -1)
+            Y = model.predict(X)
+            print("Coin is of type: ", labels[Y[0]])
+            
 
-        time.sleep(5)  # Give user time to mesure the coin to be tested
+        time.sleep(2)  # Give user time to mesure the coin to be tested
         
     
 main(file_path)
