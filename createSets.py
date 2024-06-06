@@ -115,7 +115,7 @@ for i in range(1, len(labels_name)):
         X_foreign.append(np.concatenate((R[n,:],L[n,:],p[n,:]),axis=0))
         Y_foreign.append(-1)
 
-X_test_foreign = np.concatenate((X_foreign[:25],X[:25]),axis=0)
+X_test_foreign = np.concatenate((X_foreign[:25],X[Ntrain+Nvalid:Ntrain+Nvalid+25]),axis=0)
 Y_test_foreign = np.concatenate((Y_foreign[:25],np.ones(25)),axis=0)
 
 
