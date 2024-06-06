@@ -9,7 +9,9 @@ file_path = "./data/Tests/coin_data.h5"
 
 #Set up features
 featureListR = [17,20,21,22,26,28,31,32,39,42,44,71]
-featureListL = [4,5,6,7,8,9,12,61]
+featureListL = [4,5,6,7,8,9,10,12,61]
+
+
 labels = ["unknown", "5_CTS", "10_CTS", "20_CTS", "50_CTS", "1_CHF", "2_CHF", "5_CHF"]
 
 # Load the pre-trained SVM model
@@ -49,11 +51,13 @@ def main(file_path):
             # calibrate the coin
             R = R-R_cal
             L = L-L_cal
+            
             #extract the needed features
             R = R[featureListR]
             L = L[featureListL]
+            p = R[0:9]/L
             #concatenate the features
-            X = np.concatenate((R,L),axis=0)
+            X = np.concatenate((R,L,p),axis=0)
             # reshape the array to 2D
             X = X.reshape(1, -1)
             Y = model.predict(X)
