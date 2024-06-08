@@ -34,13 +34,13 @@ def process_files(folder_path):
     if NmbFiles == 0:
         print("No files found in the folder.")
         return
-    else :
+    else:
         print(f"Found {NmbFiles} files in the folder.")
     
     file_paths = glob.glob(os.path.join(folder_path, "test_set_*.h5"))
     
     for file_path in file_paths:
-        #get the number of the file
+        # Get the number of the file
         file = file_path.split("_")[-1].split(".")[0]
         
         dataset = DataFileReader(file_path)
@@ -70,13 +70,12 @@ def process_files(folder_path):
         R = R[:, featureListR]
         L = L[:, featureListL]
         
-    
         # Ensure no zero or near-zero values in L to avoid division by zero
         L[L == 0] = np.nan  # Replace zero with NaN to handle safely
-        p = R[:,0:9]/L
+        p = R[:,0:9] / L
         
-        # Initialize prediction counter
-        predictions = {label: 0 for label in labels}
+        # Collect results for each measurement
+        results = []
         
         # Get the number of measurements after removing calibration
         N = R.shape[0]
@@ -86,7 +85,7 @@ def process_files(folder_path):
             X = np.concatenate((R[j, :], L[j, :], p[j, :]), axis=0)
             # Check for NaN values before prediction
             if np.isnan(X).any():
-                print(f"Skipping measurement {j} due to NaN values in features.")
+                results.append(("Measurement {}".format(j), "Skipped due to NaN"))
                 continue
             
             # Reshape the array to 2D
@@ -96,26 +95,29 @@ def process_files(folder_path):
             try:
                 result = ANO.predict(X)
             except ValueError as ve:
-                print(f"Error in anomaly detection for measurement {j}: {ve}")
+                results.append(("Measurement {}".format(j), "Anomaly detection error"))
                 continue
             
             if result == -1:
-                print(f"Measurement {j} is unknown")
-                predictions["unknown"] += 1
+                results.append(("Measurement {}".format(j), "Unknown"))
             else:
                 # Classification
                 try:
                     Y = SVM.predict(X)
-                    print(f"Measurement {j} is of type: {labels[Y[0]]}")
-                    predictions[labels[Y[0]]] += 1
+                    results.append(("Measurement {}".format(j), labels[Y[0]]))
                 except ValueError as ve:
-                    print(f"Error in classification for measurement {j}: {ve}")
+                    results.append(("Measurement {}".format(j), "Classification error"))
                     continue
-
-        print(f"Results for test set N°{file}:")
-        for coin, count in predictions.items():
-            if count > 0:
-                print(f"  {coin}: {count}")
+        
+        # Convert results to NumPy array
+        results_array = np.array(results, dtype=object)
+        
+        # Print the table for each file
+        print(f"\nResults for test set N°{file}:")
+        print("{:<15} {:<20}".format("Measurement", "Coin Type"))
+        print("-" * 35)
+        for row in results_array:
+            print("{:<15} {:<20}".format(row[0], row[1]))
 
 # Main function to process all test files
 def main(folder_path):
