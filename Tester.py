@@ -64,7 +64,6 @@ def main(file_path):
             # reshape the array to 2D
             X = X.reshape(1, -1)
             result = ANO.predict(X)
-            print("Anomaly score: ", result)
             if result == -1:
                 print("Coin is unknown")
             else:

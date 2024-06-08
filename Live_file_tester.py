@@ -52,8 +52,10 @@ def process_files(file_path):
         L = L[:,featureListL]
         p = R[:,0:9]/L
         #concatenate the features
-        for n in range(N-1):
-            X.append(np.concatenate((R[n,:],L[n,:],p[n,:]),axis=0))
+        #concatenate the features
+        X = np.concatenate((R,L,p),axis=0)
+        
+        X= (np.concatenate((R[n,:],L[n,:],p[n,:]),axis=0))
             Y.append(i)
     return 
 
