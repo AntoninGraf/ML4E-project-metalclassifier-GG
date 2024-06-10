@@ -109,7 +109,7 @@ def process_files(folder_path):
             else:
                 # Classification
                 try:
-                    Y = SVM2.predict(X)
+                    Y = SVM.predict(X)
                     results.append(("Measurement {}".format(j), labels[Y[0]]))
                 except ValueError as ve:
                     results.append(("Measurement {}".format(j), "Classification error"))

@@ -43,12 +43,11 @@ for j in range(len(folders)):
         #extract the needed features
         R = R[:,featureListR]
         L = L[:,featureListL]
-        #d = (L[6]-L[5])/(f[10]-f[9])
         p = R[:,0:9]/L
+        #d = (L[6]-L[5])/(f[10]-f[9])
         #concatenate the features
         for n in range(N-1):
             X.append(np.concatenate((R[n,:],L[n,:],p[n,:]),axis=0))
-            #X.append(d) ,p[n,:]
             Y.append(i)
             
 print("number of data :",len(Y))
@@ -110,6 +109,7 @@ for i in range(1, len(labels_name)):
     R = R[:,featureListR]
     L = L[:,featureListL]
     p = R[:,0:9]/L
+    #d = (L[6]-L[5])/(f[10]-f[9])
     #concatenate the features
     for n in range(N-1):
         X_foreign.append(np.concatenate((R[n,:],L[n,:],p[n,:]),axis=0))
