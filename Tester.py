@@ -63,6 +63,8 @@ def main(file_path):
             X = np.concatenate((R,L,p),axis=0)
             # reshape the array to 2D
             X = X.reshape(1, -1)
+
+            
             result = ANO.predict(X)
             if result == -1:
                 print("Coin is unknown")

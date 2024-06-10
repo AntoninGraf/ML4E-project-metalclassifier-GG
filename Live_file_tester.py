@@ -19,6 +19,9 @@ with open("data/Tests/modelAn1.pkl", "rb") as f:
 with open("data/Tests/model1.pkl", "rb") as f:
     SVM = pickle.load(f)
 
+with open("data/Tests/model2.pkl", "rb") as f:
+    SVM2 = pickle.load(f)
+
 # Count the number of files in the folder
 def count_files_in_folder(folder_path):
     try:
@@ -91,19 +94,22 @@ def process_files(folder_path):
             # Reshape the array to 2D
             X = X.reshape(1, -1)
             
-            # Anomaly detection
+            # Anomaly detection using 1 VS all
             try:
-                result = ANO.predict(X)
+                #result = ANO.predict(X)
+                Y_prob = SVM2.predict_proba(X)
+                threshold = 0.99 
+                result = np.max(Y_prob, axis=1) < threshold
             except ValueError as ve:
                 results.append(("Measurement {}".format(j), "Anomaly detection error"))
                 continue
             
-            if result == -1:
+            if result == False: #-1
                 results.append(("Measurement {}".format(j), "Unknown"))
             else:
                 # Classification
                 try:
-                    Y = SVM.predict(X)
+                    Y = SVM2.predict(X)
                     results.append(("Measurement {}".format(j), labels[Y[0]]))
                 except ValueError as ve:
                     results.append(("Measurement {}".format(j), "Classification error"))
