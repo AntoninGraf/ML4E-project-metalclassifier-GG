@@ -115,15 +115,27 @@ for i in range(1, len(labels_name)):
         X_foreign.append(np.concatenate((R[n,:],L[n,:],p[n,:]),axis=0))
         Y_foreign.append(-1)
 
-X_test_foreign = np.concatenate((X_foreign[:25],X[Ntrain+Nvalid:Ntrain+Nvalid+25]),axis=0)
-Y_test_foreign = np.concatenate((Y_foreign[:25],np.ones(25)),axis=0)
+X_CHF_foreign = np.concatenate((X_foreign[:50],X[Ntrain+Nvalid:Ntrain+Nvalid+50]),axis=0)
+Y_CHF_foreign = np.concatenate((Y_foreign[:50],np.ones(50)),axis=0)
 
 
 #shuffle the data
-X_test_foreign,Y_test_foreign = shuffle(X_test_foreign,Y_test_foreign,random_state=42)
+X_CHF_foreign,Y_CHF_foreign = shuffle(X_CHF_foreign,Y_CHF_foreign,random_state=42)
+
+X_valid_foreign = X_CHF_foreign[:60]
+Y_valid_foreign = Y_CHF_foreign[:60]
+X_test_foreign = X_CHF_foreign[60:]
+Y_test_foreign = Y_CHF_foreign[60:]
+
+
+with open("dataset/validset_foreign.pkl","wb+") as f:
+    pickle.dump((X_valid_foreign,Y_valid_foreign), f)
 with open("dataset/testset_foreign.pkl","wb+") as f:
     pickle.dump((X_test_foreign,Y_test_foreign), f)
 
+print("validation set generated with foreign coins")
+print("number of data :",len(Y_valid_foreign))
+print("number of features :",len(X_valid_foreign[0]))
 print("test set generated with foreign coins")
 print("number of data :",len(Y_test_foreign))
 print("number of features :",len(X_test_foreign[0]))
