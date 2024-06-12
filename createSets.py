@@ -1,7 +1,7 @@
 
 import h5py
 import numpy as np
-from dev.datafilereader import DataFileReader
+from datafilereader import DataFileReader
 from sklearn.utils import shuffle
 import pickle
 

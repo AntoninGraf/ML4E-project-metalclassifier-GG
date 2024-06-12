@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from dev.datafilereader import DataFileReader
+from datafilereader import DataFileReader
 import pickle
 import glob
 

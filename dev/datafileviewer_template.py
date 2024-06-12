@@ -9,7 +9,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from dev.datafilereader import DataFileReader
+from datafilereader import DataFileReader
 
 
 class DataFileViewer():
