@@ -8,7 +8,7 @@ import os
 import os.path
 import argparse
 import matplotlib.pyplot as plt
-from datafileviewer_template import DataFileViewer
+from dev.datafileviewer_template import DataFileViewer
 import matplotlib
 
 if __name__ == "__main__":
